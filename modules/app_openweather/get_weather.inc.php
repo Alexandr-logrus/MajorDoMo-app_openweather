@@ -3,6 +3,7 @@
 		$apiKey = gg('ow_setting.api_key');
 		$api_method =gg('ow_setting.api_method'); 
 		$unit = 'metric';
+ 		$cnt = gg('ow_setting.forecast_interval');
 		$round=intval(gg('ow_setting.ow_round'));
 		
 		$query = "http://api.openweathermap.org/data/2.5/weather?id=" . $cityID . "&mode=json&units=" . $unit . "&lang=ru&appid=" . $apiKey;
@@ -52,7 +53,7 @@
 		
 		
 	if($api_method=='16d') {
-		$query= "http://api.openweathermap.org/data/2.5/forecast/daily?id=" . $cityID . "&mode=json&units=" . $unit . "&lang=ru&cnt=16&appid=" . $apiKey;
+		$query= "http://api.openweathermap.org/data/2.5/forecast/daily?id=" . $cityID . "&mode=json&units=" . $unit . "&cnt=" . $cnt . "&lang=ru" . "&appid=" . $apiKey;
 		$data = getURL($query);
 		$weather = json_decode($data);
       if ($weather->cod == "404")
@@ -107,7 +108,7 @@
 		  }
 	  }
 	} else {
-			$query= "http://api.openweathermap.org/data/2.5/forecast?id=" . $cityID . "&mode=json&units=" . $unit . "&lang=ru&appid=" . $apiKey;
+			$query= "http://api.openweathermap.org/data/2.5/forecast?id=" . $cityID . "&mode=json&units=" . $unit . "&cnt=" . $cnt . "&lang=ru" . "&appid=" . $apiKey;
 			$data = getURL($query);
 			$weather = json_decode($data);
 			if ($weather->cod == "404")
