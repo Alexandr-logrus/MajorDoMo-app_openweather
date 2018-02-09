@@ -226,7 +226,7 @@ class app_openweather extends module
          $out["FACT"]["clouds"]        = gg('ow_fact.clouds');
          $out["FACT"]["weatherType"]   = gg('ow_fact.weather_type');
          $out["FACT"]["pressure"]      = gg('ow_fact.pressure');
-         $out["FACT"]["pressure_mmhg"] = ConvertPressure(gg('ow_fact.pressure'),"hpa", "mmhg");
+         $out["FACT"]["pressure_mmhg"] = gg('ow_fact.pressure_mmhg');
          $out["FACT"]["data_update"]   = gg('ow_city.data_update');
       }
       
