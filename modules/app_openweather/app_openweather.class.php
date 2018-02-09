@@ -228,10 +228,6 @@ class app_openweather extends module
          $out["FACT"]["pressure"]      = gg('ow_fact.pressure');
          $out["FACT"]["pressure_mmhg"] = ConvertPressure(gg('ow_fact.pressure'),"hpa", "mmhg");
          $out["FACT"]["data_update"]   = gg('ow_city.data_update');
-         
-         $out["FACT"]["sunrise"]       = date("H:i:s", gg('ow_fact.sunrise'));
-         $out["FACT"]["sunset"]        = date("H:i:s", gg('ow_fact.sunset'));
-         $out["FACT"]["day_length"]    = gmdate("H:i", gg('ow_fact.day_length'));
       }
       
       if ($forecast > 0)
@@ -282,11 +278,6 @@ class app_openweather extends module
             $out["FORECAST"][$i]["clouds"]        = gg('ow_day'.$i.'.clouds');
             $out["FORECAST"][$i]["rain"]          = gg('ow_day'.$i.'.rain');
             $out["FORECAST"][$i]["snow"]          = gg('ow_day'.$i.'.snow');
-            $out["FORECAST"][$i]["freeze"]        = GetFreezePossibility($dayTemp, $eveTemp);
-			
-            $out["FORECAST"][$i]["sunrise"]    = date("H:i:s", gg('ow_day'.$i.'.sunrise'));
-            $out["FORECAST"][$i]["sunset"]     = date("H:i:s", gg('ow_day'.$i.'.sunset'));
-            $out["FORECAST"][$i]["day_length"] = gmdate("H:i", gg('ow_day'.$i.'.day_length')); 
          }
       }
    }
@@ -489,37 +480,6 @@ private static function GetCurrTemp($temp)
       }
    }
    
-   /**
-    * Get sun info by coords and timestamp
-    * 
-    * sunrise                     - Время восхода солнца
-    * sunset                      - Время заката
-    * transit                     - Время прохождения планеты через меридиан
-    * civil_twilight_begin        - Время начала гражданских сумерек
-    * civil_twilight_end          - Время конца гражданских сумерек
-    * nautical_twilight_begin     - Время начала навигационных сумерек
-    * nautical_twilight_end       - Время конца навигационных сумерек
-    * astronomical_twilight_begin - Время начала астрономических сумерек
-    * astronomical_twilight_end   - Время конца астрономических сумерек
-    * 
-    * @param mixed $cityLat GeoCoord Latitude
-    * @param mixed $cityLong GeoCoord Longitude
-    * @param mixed $timeStamp TimeStamp. 
-    * @return array|bool
-    */
-   private function GetSunInfo($timeStamp = -1)
-   {
-		$cityLat=gg('ow_city.lat');
-		$cityLong=gg('ow_city.lon');
-		if($timeStamp == '' or $timeStamp == -1) $timeStamp = time();
-		if (!isset($cityLat) || !isset($cityLong)) return FALSE;
-		if(empty($cityLat) || empty($cityLong)) {
-			DebMes('OpenWeather: '.'CityCoords not found');
-			return FALSE;
-		}
-		$info = date_sun_info($timeStamp, $cityLat, $cityLong);
-		return $info;
-   }
 
 private function ws_reg() 
 {

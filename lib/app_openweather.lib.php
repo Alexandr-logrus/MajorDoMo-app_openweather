@@ -42,46 +42,5 @@ function ConvertPressure($pressure, $from, $to, $precision = 2)
       
       return $pressure;
    }
-   
-   
-   /**
-    * Get possibility freeze by evening and day temperature
-    * @param mixed $tempDay      Temperature at 13:00
-    * @param mixed $tempEvening  Termerature at 21:00
-    * @return double|int         Freeze possibility %
-    */
-function GetFreezePossibility($tempDay, $tempEvening)
-   {
-      // Температура растет или Температура ниже нуля
-      if ( $tempEvening >= $tempDay || $tempEvening < 0)
-         return -1;
 
-      $tempDelta = $tempDay - $tempEvening;
-
-      if ( $tempEvening < 11 && $tempDelta < 11 )
-      {
-         $t_graph = array(0 => array(0.375, 11, 0),
-                          1 => array(0.391, 8.7, 10),
-                          2 => array(0.382, 6.7, 20),
-                          3 => array(0.382, 4.7, 40),
-                          4 => array(0.391, 2.7, 60),
-                          5 => array(0.4, 1.6, 80));
-
-         $graphCount = count($t_graph);
-
-         for ($i = 0; $i < $graphCount; $i++)
-         {
-            $y1 = $t_graph[$i][0] * $tempDelta + $t_graph[$i][1];
-            
-            if ( $tempEvening > $y1)
-            {
-               return (int)$t_graph[$i][2];
-            }
-         }
-
-         return 100;
-      }
-      
-      return -1;
-   }
 ?>

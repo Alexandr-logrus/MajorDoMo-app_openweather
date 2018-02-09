@@ -19,8 +19,6 @@
                         <li><#LANG_OW_WEATHER_OVERCAST#>: [#clouds#]%</li>
                         <li><#LANG_OW_PRESSURE#>: [#pressure_mmhg#] <#LANG_OW_PRESSURE_MMHG#></li>
                         <li><#LANG_OW_WEATHER_HUMIDITY#>: [#humidity#]%</li>
-                        <li><#LANG_OW_SUNINFO_DAY_SUNRISE_SUNSET#>: [#sunrise#]/[#sunset#]</li>
-                        <li><#LANG_OW_SUNINFO_DAY_LENGTH#>: [#day_length#]</li>
                      </ul>
                   </td>
                </tr>
@@ -50,10 +48,8 @@
                         <li><span><#LANG_OW_WEATHER_OVERCAST#>: [#clouds#]%</span></li>
                         <li><span><#LANG_OW_PRESSURE#>: [#pressure_mmhg#] <#LANG_OW_PRESSURE_MMHG#></span></li>
                         [#if humidity!=0#]<li><#LANG_OW_WEATHER_HUMIDITY#>: [#humidity#]%</li>[#endif humidity#]
-                        [#if rain!="0"#]<li><#LANG_OW_WEATHER_RAIN#>: [#rain#]mm</li>[#endif rain#]
-                        [#if snow!="0"#]<li><#LANG_OW_WEATHER_SNOW#>: [#snow#]mm</li>[#endif snow#]
-                        <li><#LANG_OW_SUNINFO_DAY_SUNRISE_SUNSET#>: [#sunrise#]/[#sunset#]</li>
-                        <li><#LANG_OW_SUNINFO_DAY_LENGTH#>: [#day_length#]</li>
+                        [#if rain!="0"#]<li><#LANG_OW_WEATHER_RAIN#>: [#rain#] <#LANG_OW_SEDIMENT_VOLIME#></li>[#endif rain#]
+                        [#if snow!="0"#]<li><#LANG_OW_WEATHER_SNOW#>: [#snow#] <#LANG_OW_SEDIMENT_VOLIME#></li>[#endif snow#]
                      </ul>
                   </td>
                </tr>

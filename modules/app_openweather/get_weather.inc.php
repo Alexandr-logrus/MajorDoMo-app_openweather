@@ -32,22 +32,7 @@
 		  sg('ow_fact.rain', isset($fact->rain) ? $fact->rain : '');
 		  sg('ow_fact.condCode', $curWeather->weather[0]->id);
 		  sg('ow_city.data_update', $date);
-
 		  
-		  $sunInfo = $this->GetSunInfo();
-		  if ($sunInfo)
-		  {
-			 $sunRise = $sunInfo["sunrise"];
-			 $sunSet = $sunInfo["sunset"];
-			 $dayLength = $sunSet - $sunRise;
-
-			 sg('ow_fact.sunrise', $sunRise);
-			 sg('ow_fact.sunset', $sunSet);
-			 sg('ow_fact.day_length', $dayLength);
-			 sg('ow_fact.transit', $sunInfo["transit"]);
-			 sg('ow_fact.civil_twilight_begin', $sunInfo["civil_twilight_begin"]);
-			 sg('ow_fact.civil_twilight_end', $sunInfo["civil_twilight_end"]);
-		  }
 		}
 		
 		
@@ -88,22 +73,6 @@
 			 sg('ow_day'.$i.'.snow', isset($day->snow) ? $day->snow : 0);
 			 sg('ow_day'.$i.'.condCode', $day->weather[0]->id);
 			 
-			 $curTimeStamp = strtotime('+' . $i . ' day', time());
-			 $sunInfo = $this->GetSunInfo($curTimeStamp);
-			 if ($sunInfo)
-			 {
-				$sunRise = $sunInfo["sunrise"];
-				$sunSet = $sunInfo["sunset"];
-				$dayLength = $sunSet - $sunRise;
-				
-				sg('ow_day'.$i.'.sunrise', $sunRise);
-				sg('ow_day'.$i.'.sunset', $sunSet);
-				sg('ow_day'.$i.'.day_length', $dayLength);
-				sg('ow_day'.$i.'.transit', $sunInfo["transit"]);
-				sg('ow_day'.$i.'.civil_twilight_begin', $sunInfo["civil_twilight_begin"]);
-				sg('ow_day'.$i.'.civil_twilight_end', $sunInfo["civil_twilight_end"]);
-			 }
-			 
 			 $i++;
 		  }
 	  }
@@ -142,22 +111,7 @@
 			 //sg('ow_day'.$i.'.rain', isset($day->rain->3h) ? $day->rain->3h : 0);
 			 //sg('ow_day'.$i.'.snow', isset($day->snow->3h) ? $day->snow->3h : 0);
 			 sg('ow_day'.$i.'.condCode', $day->weather[0]->id);
-			 
-			 $curTimeStamp = $day->dt;
-			 $sunInfo = $this->GetSunInfo($curTimeStamp);
-			 if ($sunInfo)
-			 {
-				$sunRise = $sunInfo["sunrise"];
-				$sunSet = $sunInfo["sunset"];
-				$dayLength = $sunSet - $sunRise;
-				
-				sg('ow_day'.$i.'.sunrise', $sunRise);
-				sg('ow_day'.$i.'.sunset', $sunSet);
-				sg('ow_day'.$i.'.day_length', $dayLength);
-				sg('ow_day'.$i.'.transit', $sunInfo["transit"]);
-				sg('ow_day'.$i.'.civil_twilight_begin', $sunInfo["civil_twilight_begin"]);
-				sg('ow_day'.$i.'.civil_twilight_end', $sunInfo["civil_twilight_end"]);
-			 }
+
 			 $i++;
 		  }
 	  }
