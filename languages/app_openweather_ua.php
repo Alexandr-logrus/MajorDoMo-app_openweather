@@ -6,7 +6,7 @@
 $dictionary = array(
 /* general */
 'OW_SCRIPT_NAME'=>'Назва сценарію',
-'OW_EXECUTE_AFTER_UPDATE'=>'Після оновлення ваиконати сценарій',
+'OW_EXECUTE_AFTER_UPDATE'=>'Після оновлення виконати сценарій',
 'OW_UPDATE_PERIOD'=>'Період оновлення',
 'OW_UPDATE_PERIOD_1HOUR' => 'кожну годину',
 'OW_UPDATE_PERIOD_2HOUR' => 'кожні дві години',
@@ -44,13 +44,8 @@ $dictionary = array(
 'OW_WEATHER_ON_DATE' => 'станом на',
 'OW_WEATHER_REFRESH' => 'оновити',
 'OW_WEATHER_NOW' => 'Зараз',
-'OW_WEATHER_WIND' => 'Вітер',
 'OW_WEATHER_OVERCAST' => 'Хмарність',
-'OW_PRESSURE' => 'Тиск',
-'OW_PRESSURE_MMHG' => 'мм рт.ст.',
 'OW_SEDIMENT_VOLIME' => 'мм',
-'OW_PRESSURE_HPA' => 'гПА',
-'OW_WEATHER_HUMIDITY' => 'Вологість',
 'OW_WEATHER_RAIN' => 'Об`єм осадів (дождю)',
 'OW_WEATHER_SNOW' => 'Об`єм осадів (снігу)',
 'OW_WEATHER_TODAY' => 'Сьогодні',

@@ -585,7 +585,7 @@ private function ws_send_data(&$out, $send=false) {
     * Module installation routine
     * @access private
     */
-   public function install($parent_name = '')
+   public function install($data = '')
    {
 	  subscribeToEvent($this->name, 'HOURLY');
       $className = 'openweather';
