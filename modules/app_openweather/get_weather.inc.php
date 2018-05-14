@@ -71,7 +71,7 @@
 			 sg('ow_day'.$i.'.temp_morn', round($day->temp->morn, $round));
 			 sg('ow_day'.$i.'.temp_day', round($day->temp->day, $round));
 			 sg('ow_day'.$i.'.temp_eve', round($day->temp->eve, $round));
-			 sg('ow_day'.$i.'.temp_night', round($day->temp->night,$round));
+			 sg('ow_day'.$i.'.temp_night', round($day->temp->night, $round));
 			 sg('ow_day'.$i.'.temp_min', round($day->temp->min, $round));
 			 sg('ow_day'.$i.'.temp_max', round($day->temp->max, $round));
 			 
