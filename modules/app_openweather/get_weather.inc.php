@@ -6,14 +6,28 @@
  		$cnt = gg('ow_setting.forecast_interval');
 		$round=intval(gg('ow_setting.ow_round'));
 		
-		$query = "http://api.openweathermap.org/data/2.5/weather?id=" . $cityID . "&mode=json&units=" . $unit . "&lang=ru&appid=" . $apiKey;
-		$data =  getURL($query);		
-		$curWeather = json_decode($data);
-		if ($curWeather->cod == "404")
-		  {
-			 DebMes('OpenWeather: '.$weather->message);
-			 return;
-		  }
+		$ret=0;
+		while($ret<=4) {
+			$query = "http://api.openweathermap.org/data/2.5/weather?id=" . $cityID . "&mode=json&units=" . $unit . "&lang=ru&appid=" . $apiKey;
+			$data =  getURL($query);
+
+			//file_put_contents('/var/www/html/texts/Weather.txt', date('Y-m-d H:i:s') . PHP_EOL, FILE_APPEND);
+			//file_put_contents('/var/www/html/texts/Weather.txt', $data . PHP_EOL, FILE_APPEND);
+		
+			$curWeather = json_decode($data);
+			if ($curWeather->cod == "404" || $curWeather->cod == "500") {
+				$err_msg=$weather->message;
+				sleep (15);
+			} else {
+				$err_msg='';
+				$ret=5;
+			}
+			$ret++;
+		}
+		if ($err_msg){
+			DebMes('OpenWeather: '.$err_msg);
+			return;				
+		}
 		 
 		if($curWeather!=false && !empty($curWeather)) {
 		  $fact = $curWeather->main;
