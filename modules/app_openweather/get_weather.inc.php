@@ -9,7 +9,8 @@
 		$apiKey = gg('ow_setting.api_key');
 		$api_method = gg('ow_setting.api_method'); 
 		$unit = 'metric';
- 		$cnt = gg('ow_setting.forecast_interval');
+ 		//$cnt = gg('ow_setting.forecast_interval');
+ 		$cnt = $ow_forecast_interval;
 		$round = intval(gg('ow_setting.ow_round'));
 		
 		$ret = 0;
@@ -45,7 +46,7 @@
 		  sg('ow_fact.wind_direction', round($curWeather->wind->deg, $round));
 		  sg('ow_fact.wind_speed',round($curWeather->wind->speed, $round));
 		  sg('ow_fact.humidity', round($fact->humidity, $round));
-		  sg('ow_fact.pressure', round($fact->pressure, $round));
+		  //sg('ow_fact.pressure', round($fact->pressure, $round));
 		  sg('ow_fact.pressure_mmhg', round(ConvertPressure($fact->pressure, "hpa", "mmhg", 2), $round));
 		  sg('ow_fact.image', $curWeather->weather[0]->icon);
 		  sg('ow_fact.clouds', $curWeather->clouds->all);
@@ -85,7 +86,7 @@
 			 sg('ow_day'.$i.'.wind_direction', round($day->deg, $round));
 			 sg('ow_day'.$i.'.wind_speed', round($day->speed, $round));
 			 if($day->humidity) sg('ow_day'.$i.'.humidity', round($day->humidity, $round));
-			 sg('ow_day'.$i.'.pressure', round($day->pressure, $round));
+			 //sg('ow_day'.$i.'.pressure', round($day->pressure, $round));
 			 sg('ow_day'.$i.'.pressure_mmhg', round(ConvertPressure($day->pressure, "hpa", "mmhg", 2), $round));
 			 sg('ow_day'.$i.'.image', $day->weather[0]->icon);
 			 sg('ow_day'.$i.'.clouds', $day->clouds);
@@ -124,7 +125,7 @@
 			 sg('ow_day'.$i.'.wind_direction', round($day->wind->deg, $round));
 			 sg('ow_day'.$i.'.wind_speed', round($day->wind->speed, $round));
 			 if($day->main->humidity) sg('ow_day'.$i.'.humidity', round($day->main->humidity, $round));
-			 sg('ow_day'.$i.'.pressure', round($day->main->pressure, $round));
+			 //sg('ow_day'.$i.'.pressure', round($day->main->pressure, $round));
 			 sg('ow_day'.$i.'.pressure_mmhg', round(ConvertPressure($day->main->pressure, "hpa", "mmhg", 2), $round));
 			 sg('ow_day'.$i.'.image', $day->weather[0]->icon);
 			 sg('ow_day'.$i.'.clouds', $day->clouds->all);

@@ -225,7 +225,7 @@ class app_openweather extends module
          $out["FACT"]["humidity"]      = gg('ow_fact.humidity');
          $out["FACT"]["clouds"]        = gg('ow_fact.clouds');
          $out["FACT"]["weatherType"]   = gg('ow_fact.weather_type');
-         $out["FACT"]["pressure"]      = gg('ow_fact.pressure');
+         //$out["FACT"]["pressure"]      = gg('ow_fact.pressure');
          $out["FACT"]["pressure_mmhg"] = gg('ow_fact.pressure_mmhg');
          $out["FACT"]["data_update"]   = gg('ow_city.data_update');
       }
@@ -273,7 +273,7 @@ class app_openweather extends module
             $out["FORECAST"][$i]["windSpeed"]     = gg('ow_day'.$i.'.wind_speed');
             $out["FORECAST"][$i]["humidity"]      = gg('ow_day'.$i.'.humidity');
             $out["FORECAST"][$i]["weatherType"]   = gg('ow_day'.$i.'.weather_type');
-            $out["FORECAST"][$i]["pressure"]      = gg('ow_day'.$i.'.pressure');
+            //$out["FORECAST"][$i]["pressure"]      = gg('ow_day'.$i.'.pressure');
             $out["FORECAST"][$i]["pressure_mmhg"] = gg('ow_day'.$i.'.pressure_mmhg');
             $out["FORECAST"][$i]["clouds"]        = gg('ow_day'.$i.'.clouds');
             $out["FORECAST"][$i]["rain"]          = gg('ow_day'.$i.'.rain');
