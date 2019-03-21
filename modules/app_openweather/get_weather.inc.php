@@ -9,8 +9,7 @@
 		$apiKey = gg('ow_setting.api_key');
 		$api_method = gg('ow_setting.api_method'); 
 		$unit = 'metric';
- 		//$cnt = gg('ow_setting.forecast_interval');
- 		$cnt = $ow_forecast_interval;
+ 		$cnt = gg('ow_setting.forecast_interval');
 		$round = intval(gg('ow_setting.ow_round'));
 		
 		$ret = 0;

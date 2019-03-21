@@ -261,9 +261,9 @@ class app_openweather extends module
 			
             $out["FORECAST"][$i]["temperature"] = $temp;
             $out["FORECAST"][$i]["temp_morn"]   = gg('ow_day'.$i.'.temp_morn');
-			$out["FORECAST"][$i]["temp_day"] = $dayTemp;
+            $out["FORECAST"][$i]["temp_day"] = $dayTemp;
             $out["FORECAST"][$i]["temp_eve"]    = $eveTemp;
-			$out["FORECAST"][$i]["temp_night"] = $nTemp;
+            $out["FORECAST"][$i]["temp_night"] = $nTemp;
             $out["FORECAST"][$i]["temp_min"]    = gg('ow_day'.$i.'.temp_min');
             $out["FORECAST"][$i]["temp_max"]    = gg('ow_day'.$i.'.temp_max');
             
@@ -321,12 +321,12 @@ class app_openweather extends module
       
       if(gg('ow_setting.ow_imagecache') == 'on')
       {
-         $filePath = ROOT.'cms/cached' . DIRECTORY_SEPARATOR . 'openweather' . DIRECTORY_SEPARATOR . 'image';
+         $filePath = ROOT.'cms' . DIRECTORY_SEPARATOR . 'cached' . DIRECTORY_SEPARATOR . 'openweather' . DIRECTORY_SEPARATOR . 'image';
          
          if (!is_dir($filePath))
          {
-            @mkdir(ROOT . 'cms/cached', 0777);
-            @mkdir(ROOT . 'cms/cached' . DIRECTORY_SEPARATOR . 'openweather', 0777);
+            @mkdir(ROOT . 'cms' . DIRECTORY_SEPARATOR . 'cached', 0777);
+            @mkdir(ROOT . 'cms' . DIRECTORY_SEPARATOR . 'cached' . DIRECTORY_SEPARATOR . 'openweather', 0777);
             @mkdir($filePath, 0777);
          }
          
