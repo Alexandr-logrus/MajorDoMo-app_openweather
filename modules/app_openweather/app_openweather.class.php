@@ -155,11 +155,11 @@ class app_openweather extends module
       }
 	  else if($this->view_mode == 'getCityId')
       {
-		$filePath = ROOT.'cms/cached' . DIRECTORY_SEPARATOR . 'openweather';
+		$filePath = ROOT.'templates_alt' . DIRECTORY_SEPARATOR . 'openweather';
 		if(!file_exists($filePath . DIRECTORY_SEPARATOR . 'city_list.txt')) { 
 			 if (!is_dir($filePath))
 			 {
-				@mkdir(ROOT . 'cms/cached', 0777);
+				@mkdir(ROOT . 'templates_alt', 0777);
 				@mkdir($filePath, 0777);
 			 }
 			 SaveFile($filePath . DIRECTORY_SEPARATOR . 'city_list.txt', @file_get_contents('http://openweathermap.org/help/city_list.txt'));
@@ -225,7 +225,7 @@ class app_openweather extends module
          $out["FACT"]["humidity"]      = gg('ow_fact.humidity');
          $out["FACT"]["clouds"]        = gg('ow_fact.clouds');
          $out["FACT"]["weatherType"]   = gg('ow_fact.weather_type');
-         //$out["FACT"]["pressure"]    = gg('ow_fact.pressure');
+         //$out["FACT"]["pressure"]      = gg('ow_fact.pressure');
          $out["FACT"]["pressure_mmhg"] = gg('ow_fact.pressure_mmhg');
          $out["FACT"]["data_update"]   = gg('ow_city.data_update');
       }
@@ -303,8 +303,8 @@ class app_openweather extends module
     */
    public function get_weather($cityID)
    {
-	require(DIR_MODULES.$this->name.'/get_weather.inc.php');
-    runScript(gg('ow_setting.updScript'));
+    require(DIR_MODULES.$this->name.'/get_weather.inc.php');
+    //runScript(gg('ow_setting.updScript'));
    }
 
    /**
@@ -321,12 +321,12 @@ class app_openweather extends module
       
       if(gg('ow_setting.ow_imagecache') == 'on')
       {
-         $filePath = ROOT.'cms' . DIRECTORY_SEPARATOR . 'cached' . DIRECTORY_SEPARATOR . 'openweather' . DIRECTORY_SEPARATOR . 'image';
+         $filePath = ROOT.'templates_alt' . DIRECTORY_SEPARATOR . 'openweather' . DIRECTORY_SEPARATOR . 'image';
          
          if (!is_dir($filePath))
          {
-            @mkdir(ROOT . 'cms' . DIRECTORY_SEPARATOR . 'cached', 0777);
-            @mkdir(ROOT . 'cms' . DIRECTORY_SEPARATOR . 'cached' . DIRECTORY_SEPARATOR . 'openweather', 0777);
+            @mkdir(ROOT . 'templates_alt', 0777);
+            @mkdir(ROOT . 'templates_alt' . DIRECTORY_SEPARATOR . 'openweather', 0777);
             @mkdir($filePath, 0777);
          }
          
@@ -339,7 +339,7 @@ class app_openweather extends module
             }
          }
          
-         $urlIcon = ROOTHTML . "cms/cached/openweather/image/" . $fileName;
+         $urlIcon = ROOTHTML . "templates_alt/openweather/image/" . $fileName;
       }
       return $urlIcon;
    }
@@ -414,7 +414,7 @@ public function get_cityId(&$out)
    {
       global $country;
       if (!isset($country)) $country = '';
-	  $data = @file_get_contents(ROOT.'cms/cached/openweather/city_list.txt');
+	  $data = @file_get_contents(ROOT.'templates_alt/openweather/city_list.txt');
 	  $out["country"]=$country;
       if (count($data) <= 0) return;
       $dataArray = explode("\n", $data);
@@ -440,7 +440,7 @@ public function save_cityId()
      
       if(isset($ow_city_id) && $ow_city_id != 0)
       {
-		$data = @file_get_contents(ROOT.'cms/cached/openweather/city_list.txt');
+		$data = @file_get_contents(ROOT.'templates_alt/openweather/city_list.txt');
 		if (count($data) <= 0) return;
 		$dataArray = explode("\n", $data);	
 		  foreach($dataArray as $row) 
@@ -620,7 +620,7 @@ private function ws_send_data(&$out, $send=false) {
    
    public function uninstall()
    {
-	  unsubscribeFromEvent($this->name, 'HOURLY');
+      unsubscribeFromEvent($this->name, 'HOURLY');
       SQLExec("delete from pvalues where property_id in (select id FROM properties where object_id in (select id from objects where class_id = (select id from classes where title = 'openweather')))");
       SQLExec("delete from properties where object_id in (select id from objects where class_id = (select id from classes where title = 'openweather'))");
       SQLExec("delete from objects where class_id = (select id from classes where title = 'openweather')");
