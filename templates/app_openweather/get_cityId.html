@@ -1,48 +1,48 @@
 <script language="javascript">
-   $(document).ready(function()
-   {
-      function NASort(a, b)
-      {
-         if (a.innerHTML == 'NA')
-         {
-            return 1;
-         }
-         else if (b.innerHTML == 'NA')
-         {
-            return -1;
-         }
-         return (a.innerHTML > b.innerHTML) ? 1 : -1;
-      };
+	$(document).ready(function()
+	{
+		function NASort(a, b)
+		{
+			if (a.innerHTML == 'NA')
+			{
+				return 1;
+			}
+			else if (b.innerHTML == 'NA')
+			{
+				return -1;
+			}
+			return (a.innerHTML > b.innerHTML) ? 1 : -1;
+			};
 
-      $('#ow_city option').sort(NASort).appendTo('#ow_city');
+			$('#ow_city option').sort(NASort).appendTo('#ow_city');
 
-      $('#ow_city').change(function()
-      {
-         $("#ow_city_name").val($("#ow_city option:selected").text());
-         return false;
-      });
-   });
+			$('#ow_city').change(function()
+			{
+			$("#ow_city_name").val($("#ow_city option:selected").text());
+			return false;
+		});
+	});
 </script>
 
 <form action="?" method="get" class="form-horizontal" name="country_change">
-   <input type="hidden" name="view_mode" value="getCityId">
-   <div class="form-group">
-      <div class="col-sm-5">
-         <select name="country" id="country" class="form-control" onchange="document.country_change.submit();">
-		  <option value="">--<#LANG_OW_CHOOSE_COUNTRY#>--</option>
-		  <option value="AD" [#if country="AD"#] selected[#endif#]>Andorra</option>
-		  <option value="AE" [#if country="AE"#] selected[#endif#]>United Arab Emirates</option>
-		  <option value="AF" [#if country="AF"#] selected[#endif#]>Afghanistan</option>
-		  <option value="AG" [#if country="AG"#] selected[#endif#]>Antigua and Barbuda</option>
-		  <option value="AI" [#if country="AI"#] selected[#endif#]>Anguilla</option>
-		  <option value="AL" [#if country="AL"#] selected[#endif#]>Albania</option>
-		  <option value="AM" [#if country="AM"#] selected[#endif#]>Armenia</option>
-		  <option value="AO" [#if country="AO"#] selected[#endif#]>Angola</option>
-		  <option value="AR" [#if country="AR"#] selected[#endif#]>Argentina</option>
-		  <option value="AS" [#if country="AS"#] selected[#endif#]>American Samoa</option>
-		  <option value="AT" [#if country="AT"#] selected[#endif#]>Austria</option>
-		  <option value="AU" [#if country="AU"#] selected[#endif#]>Australia</option>
-		  <option value="AW" [#if country="AW"#] selected[#endif#]>Aruba</option>
+	<input type="hidden" name="view_mode" value="getCityId">
+	<div class="form-group">
+		<div class="col-sm-5">
+			<select name="country" id="country" class="form-control" onchange="document.country_change.submit();">
+				<option value="">--<#LANG_OW_CHOOSE_COUNTRY#>--</option>
+				<option value="AD" [#if country="AD"#] selected[#endif#]>Andorra</option>
+				<option value="AE" [#if country="AE"#] selected[#endif#]>United Arab Emirates</option>
+				<option value="AF" [#if country="AF"#] selected[#endif#]>Afghanistan</option>
+				<option value="AG" [#if country="AG"#] selected[#endif#]>Antigua and Barbuda</option>
+				<option value="AI" [#if country="AI"#] selected[#endif#]>Anguilla</option>
+				<option value="AL" [#if country="AL"#] selected[#endif#]>Albania</option>
+				<option value="AM" [#if country="AM"#] selected[#endif#]>Armenia</option>
+				<option value="AO" [#if country="AO"#] selected[#endif#]>Angola</option>
+				<option value="AR" [#if country="AR"#] selected[#endif#]>Argentina</option>
+				<option value="AS" [#if country="AS"#] selected[#endif#]>American Samoa</option>
+				<option value="AT" [#if country="AT"#] selected[#endif#]>Austria</option>
+				<option value="AU" [#if country="AU"#] selected[#endif#]>Australia</option>
+				<option value="AW" [#if country="AW"#] selected[#endif#]>Aruba</option>
 		  <option value="AX" [#if country="AX"#] selected[#endif#]>Åland Islands</option>
 		  <option value="AZ" [#if country="AZ"#] selected[#endif#]>Azerbaijan</option>
 		  <option value="BA" [#if country="BA"#] selected[#endif#]>Bosnia and Herzegovina</option>
@@ -221,69 +221,69 @@
 		  <option value="SB" [#if country="SB"#] selected[#endif#]>Solomon Islands</option>
 		  <option value="SC" [#if country="SC"#] selected[#endif#]>Seychelles</option>
 		  <option value="SD" [#if country="SD"#] selected[#endif#]>Sudan</option>
-		  <option value="SE" [#if country="SE"#] selected[#endif#]>Sweden</option>
-		  <option value="SG" [#if country="SG"#] selected[#endif#]>Singapore</option>
-		  <option value="SH" [#if country="SH"#] selected[#endif#]>Saint Helena</option>
-		  <option value="SI" [#if country="SI"#] selected[#endif#]>Slovenia</option>
-		  <option value="SJ" [#if country="SJ"#] selected[#endif#]>Svalbard</option>
-		  <option value="SK" [#if country="SK"#] selected[#endif#]>Slovakia</option>
-		  <option value="SL" [#if country="SL"#] selected[#endif#]>Sierra Leone</option>
-		  <option value="SM" [#if country="SM"#] selected[#endif#]>San Marino</option>
-		  <option value="SN" [#if country="SN"#] selected[#endif#]>Senegal</option>
-		  <option value="SO" [#if country="SO"#] selected[#endif#]>Somalia</option>
-		  <option value="SR" [#if country="SR"#] selected[#endif#]>Suriname</option>
-		  <option value="SS" [#if country="SS"#] selected[#endif#]>Sao Tome and Principe</option>
-		  <option value="ST" [#if country="ST"#] selected[#endif#]>El Salvador</option>
-		  <option value="SV" [#if country="SV"#] selected[#endif#]>El Salvador</option>
-		  <option value="SX" [#if country="SX"#] selected[#endif#]>Sint Maarten</option>
-		  <option value="SY" [#if country="SY"#] selected[#endif#]>Syria</option>
-		  <option value="SZ" [#if country="SZ"#] selected[#endif#]>Swaziland</option>
-		  <option value="TC" [#if country="TC"#] selected[#endif#]>Turks and Caicos Islands</option>
-		  <option value="TD" [#if country="TD"#] selected[#endif#]>Chad</option>
-		  <option value="TF" [#if country="TF"#] selected[#endif#]>French Southern Territories</option>
-		  <option value="TG" [#if country="TG"#] selected[#endif#]>Togo</option>
-		  <option value="TH" [#if country="TH"#] selected[#endif#]>Thailand</option>
-		  <option value="TJ" [#if country="TJ"#] selected[#endif#]>Tajikistan</option>
-		  <option value="TL" [#if country="TL"#] selected[#endif#]>Timor-Leste</option>
-		  <option value="TM" [#if country="TM"#] selected[#endif#]>Turkmenistan</option>
-		  <option value="TN" [#if country="TN"#] selected[#endif#]>Tunisia</option>
-		  <option value="TO" [#if country="TO"#] selected[#endif#]>Tonga</option>
-		  <option value="TR" [#if country="TR"#] selected[#endif#]>Turkey</option>
-		  <option value="TT" [#if country="TT"#] selected[#endif#]>Trinidad and Tobago</option>
-		  <option value="TV" [#if country="TV"#] selected[#endif#]>Tuvalu</option>
-		  <option value="TW" [#if country="TW"#] selected[#endif#]>Taiwan</option>
-		  <option value="TZ" [#if country="TZ"#] selected[#endif#]>Tanzania</option>
-		  <option value="UA" [#if country="UA"#] selected[#endif#]>Ukraine</option>
-		  <option value="UG" [#if country="UG"#] selected[#endif#]>Uganda</option>
-		  <option value="US" [#if country="US"#] selected[#endif#]>United States</option>
-		  <option value="UY" [#if country="UY"#] selected[#endif#]>Uruguay</option>
-		  <option value="UZ" [#if country="UZ"#] selected[#endif#]>Uzbekistan</option>
-		  <option value="VA" [#if country="VA"#] selected[#endif#]>Holy See (Vatican City)</option>
-		  <option value="VC" [#if country="VC"#] selected[#endif#]>Saint Vincent and the Grenadines</option>
-		  <option value="VE" [#if country="VE"#] selected[#endif#]>Venezuela</option>
-		  <option value="VG" [#if country="VG"#] selected[#endif#]>British Virgin Islands</option>
-		  <option value="VI" [#if country="VI"#] selected[#endif#]>US Virgin Islands</option>
-		  <option value="VN" [#if country="VN"#] selected[#endif#]>Vietnam</option>
-		  <option value="VU" [#if country="VU"#] selected[#endif#]>Vanuatu</option>
-		  <option value="WF" [#if country="WF"#] selected[#endif#]>Wallis and Futuna</option>
-		  <option value="WS" [#if country="WS"#] selected[#endif#]>Samoa</option>
-		  <option value="XK" [#if country="XK"#] selected[#endif#]>Kosovo</option>
-		  <option value="YE" [#if country="YE"#] selected[#endif#]>Yemen</option>
-		  <option value="YT" [#if country="YT"#] selected[#endif#]>Mayotte</option>
-		  <option value="ZA" [#if country="ZA"#] selected[#endif#]>South Africa</option>
-		  <option value="ZM" [#if country="ZM"#] selected[#endif#]>Zambia</option>
-		  <option value="ZW" [#if country="ZW"#] selected[#endif#]>Zimbabwe</option>
-         </select>
-      </div>
-      <div class="col-sm-5">
-         <select name="ow_city_id" id="ow_city" class="form-control">
-            [#ow_city#] ([#CITY_LAT#]|[#CITY_LNG#])
-         </select>
-      </div>
-   </div>
-   <div class="form-actions">
-      <button type="submit" name="ow_subm" value="setCityId" class="btn btn-primary"><#LANG_SUBMIT#></button>
-      <a href="?view_mode=setting" class="btn btn-default"><#LANG_CANCEL#></a>
-      <input type="hidden" id="ow_city_name" name="ow_city_name" value="">
-   </div>
+				<option value="SE" [#if country="SE"#] selected[#endif#]>Sweden</option>
+				<option value="SG" [#if country="SG"#] selected[#endif#]>Singapore</option>
+				<option value="SH" [#if country="SH"#] selected[#endif#]>Saint Helena</option>
+				<option value="SI" [#if country="SI"#] selected[#endif#]>Slovenia</option>
+				<option value="SJ" [#if country="SJ"#] selected[#endif#]>Svalbard</option>
+				<option value="SK" [#if country="SK"#] selected[#endif#]>Slovakia</option>
+				<option value="SL" [#if country="SL"#] selected[#endif#]>Sierra Leone</option>
+				<option value="SM" [#if country="SM"#] selected[#endif#]>San Marino</option>
+				<option value="SN" [#if country="SN"#] selected[#endif#]>Senegal</option>
+				<option value="SO" [#if country="SO"#] selected[#endif#]>Somalia</option>
+				<option value="SR" [#if country="SR"#] selected[#endif#]>Suriname</option>
+				<option value="SS" [#if country="SS"#] selected[#endif#]>Sao Tome and Principe</option>
+				<option value="ST" [#if country="ST"#] selected[#endif#]>El Salvador</option>
+				<option value="SV" [#if country="SV"#] selected[#endif#]>El Salvador</option>
+				<option value="SX" [#if country="SX"#] selected[#endif#]>Sint Maarten</option>
+				<option value="SY" [#if country="SY"#] selected[#endif#]>Syria</option>
+				<option value="SZ" [#if country="SZ"#] selected[#endif#]>Swaziland</option>
+				<option value="TC" [#if country="TC"#] selected[#endif#]>Turks and Caicos Islands</option>
+				<option value="TD" [#if country="TD"#] selected[#endif#]>Chad</option>
+				<option value="TF" [#if country="TF"#] selected[#endif#]>French Southern Territories</option>
+				<option value="TG" [#if country="TG"#] selected[#endif#]>Togo</option>
+				<option value="TH" [#if country="TH"#] selected[#endif#]>Thailand</option>
+				<option value="TJ" [#if country="TJ"#] selected[#endif#]>Tajikistan</option>
+				<option value="TL" [#if country="TL"#] selected[#endif#]>Timor-Leste</option>
+				<option value="TM" [#if country="TM"#] selected[#endif#]>Turkmenistan</option>
+				<option value="TN" [#if country="TN"#] selected[#endif#]>Tunisia</option>
+				<option value="TO" [#if country="TO"#] selected[#endif#]>Tonga</option>
+				<option value="TR" [#if country="TR"#] selected[#endif#]>Turkey</option>
+				<option value="TT" [#if country="TT"#] selected[#endif#]>Trinidad and Tobago</option>
+				<option value="TV" [#if country="TV"#] selected[#endif#]>Tuvalu</option>
+				<option value="TW" [#if country="TW"#] selected[#endif#]>Taiwan</option>
+				<option value="TZ" [#if country="TZ"#] selected[#endif#]>Tanzania</option>
+				<option value="UA" [#if country="UA"#] selected[#endif#]>Ukraine</option>
+				<option value="UG" [#if country="UG"#] selected[#endif#]>Uganda</option>
+				<option value="US" [#if country="US"#] selected[#endif#]>United States</option>
+				<option value="UY" [#if country="UY"#] selected[#endif#]>Uruguay</option>
+				<option value="UZ" [#if country="UZ"#] selected[#endif#]>Uzbekistan</option>
+				<option value="VA" [#if country="VA"#] selected[#endif#]>Holy See (Vatican City)</option>
+				<option value="VC" [#if country="VC"#] selected[#endif#]>Saint Vincent and the Grenadines</option>
+				<option value="VE" [#if country="VE"#] selected[#endif#]>Venezuela</option>
+				<option value="VG" [#if country="VG"#] selected[#endif#]>British Virgin Islands</option>
+				<option value="VI" [#if country="VI"#] selected[#endif#]>US Virgin Islands</option>
+				<option value="VN" [#if country="VN"#] selected[#endif#]>Vietnam</option>
+				<option value="VU" [#if country="VU"#] selected[#endif#]>Vanuatu</option>
+				<option value="WF" [#if country="WF"#] selected[#endif#]>Wallis and Futuna</option>
+				<option value="WS" [#if country="WS"#] selected[#endif#]>Samoa</option>
+				<option value="XK" [#if country="XK"#] selected[#endif#]>Kosovo</option>
+				<option value="YE" [#if country="YE"#] selected[#endif#]>Yemen</option>
+				<option value="YT" [#if country="YT"#] selected[#endif#]>Mayotte</option>
+				<option value="ZA" [#if country="ZA"#] selected[#endif#]>South Africa</option>
+				<option value="ZM" [#if country="ZM"#] selected[#endif#]>Zambia</option>
+				<option value="ZW" [#if country="ZW"#] selected[#endif#]>Zimbabwe</option>
+			</select>
+		</div>
+		<div class="col-sm-5">
+			<select name="ow_city_id" id="ow_city" class="form-control">
+				[#ow_city#] ([#CITY_LAT#]|[#CITY_LNG#])
+			</select>
+		</div>
+	</div>
+	<div class="form-actions">
+		<button type="submit" name="ow_subm" value="setCityId" class="btn btn-primary"><#LANG_SUBMIT#></button>
+		<a href="?view_mode=setting" class="btn btn-default"><#LANG_CANCEL#></a>
+		<input type="hidden" id="ow_city_name" name="ow_city_name" value="">
+	</div>
 </form>

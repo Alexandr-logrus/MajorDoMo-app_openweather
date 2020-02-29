@@ -1,0 +1,5 @@
+img/modules/app_openweather.png
+languages/app_openweather_default.php
+languages/app_openweather_ru.php
+languages/app_openweather_ua.php
+lib/app_openweather.lib.php

@@ -16,26 +16,26 @@ class app_openweather extends module
       $this->module_category = "<#LANG_SECTION_APPLICATIONS#>";
       $this->checkInstalled();
    }
-   
+
    public function saveParams($data = 0)
    {
       $p = array();
-      
+
       if(isset($this->id))
          $p["id"] = $this->id;
-      
+
       if(isset($this->view_mode))
          $p["view_mode"] = $this->view_mode;
-      
+
       if(isset($this->edit_mode))
          $p["edit_mode"] = $this->edit_mode;
-      
+
       if(isset($this->tab))
          $p["tab"] = $this->tab;
-      
+
       return parent::saveParams($p);
    }
-   
+
    public function getParams()
    {
       global $id;
@@ -45,59 +45,59 @@ class app_openweather extends module
       global $tab;
       global $fact;
       global $forecast;
-	  
+
       if (isset($id))
          $this->id=$id;
-      
+
       if (isset($mode))
          $this->mode = $mode;
-      
+
       if (isset($view_mode))
          $this->view_mode = $view_mode;
-      
+
       if (isset($edit_mode))
          $this->edit_mode = $edit_mode;
-      
+
       if (isset($tab))
          $this->tab = $tab;
-      
+
       if (isset($forecast))
          $this->forecast = $forecast;
-      
+
       if (isset($fact))
          $this->fact = $fact;
    }
-   
+
    public function run()
    {
       global $session;
       $out = array();
-      
+
       if ($this->action == 'admin')
          $this->admin($out);
       else
          $this->usual($out);
-      
+
       if (isset($this->owner->action))
          $out['PARENT_ACTION'] = $this->owner->action;
-      
+
       if (isset($this->owner->name))
          $out['PARENT_NAME'] = $this->owner->name;
-      
+
       $out['VIEW_MODE'] = $this->view_mode;
       $out['EDIT_MODE'] = $this->edit_mode;
       $out['MODE']      = $this->mode;
       $out['ACTION']    = $this->action;
       if ($this->single_rec)
          $out['SINGLE_REC'] = 1;
-      
+
       $this->data = $out;
 
       $p = new parser(DIR_TEMPLATES . $this->name . "/" . $this->name . ".html", $this->data, $this);
 
       $this->result = $p->result;
    }
-   
+
    /**
     * BackEnd
     * Summary of admin
@@ -106,7 +106,7 @@ class app_openweather extends module
    public function admin(&$out)
    {
       global $ow_subm;
-      
+
       if($ow_subm == 'setCityId')
       {
          $this->save_cityId();
@@ -131,38 +131,31 @@ class app_openweather extends module
       {
          $this->ws_reg();
       }
-      
-      if($this->view_mode == '')
-      {
+
+      if ($this->view_mode == '') {
          $ow_city_id = gg('ow_city.id');
          $ow_city_name = gg('ow_city.name');
          
-         if($ow_city_id != '' && $ow_city_name != '')
-         {
+         if ($ow_city_id != '' && $ow_city_name != '') {
             $out["ow_city_name"] = $ow_city_name;
             $out["ow_data_update"] = gg('ow_city.data_update');
             $this->view_weather($out);
-         }
-		 else
-         {
+         } else {
             $this->view_mode = "getCityId";
             $this->get_cityId($out);
          }
       }
-      else if($this->view_mode == 'setting')
-      {
+      elseif ($this->view_mode == 'setting') {
          $this->get_setting($out);
       }
-	  else if($this->view_mode == 'getCityId')
-      {
-		$filePath = ROOT.'templates_alt' . DIRECTORY_SEPARATOR . 'openweather';
-		if(!file_exists($filePath . DIRECTORY_SEPARATOR . 'city_list.txt')) { 
+	  elseif ($this->view_mode == 'getCityId') {
+		$filePath = ROOT . 'templates_alt' . DIRECTORY_SEPARATOR . 'openweather';
+		if (!file_exists($filePath . DIRECTORY_SEPARATOR . 'city_list.txt')) {  
 			 if (!is_dir($filePath))
 			 {
-				@mkdir(ROOT . 'templates_alt', 0777);
+				@mkdir(ROOT . 'templates_alt'. DIRECTORY_SEPARATOR . 'openweather', 0777);
 				@mkdir($filePath, 0777);
 			 }
-			 SaveFile($filePath . DIRECTORY_SEPARATOR . 'city_list.txt', @file_get_contents('http://openweathermap.org/help/city_list.txt'));
 		}
          $this->get_cityId($out);
       }
@@ -184,10 +177,12 @@ class app_openweather extends module
    {
       $ow_city_id   = gg('ow_city.id');
       $ow_city_name = gg('ow_city.name');
-      
+
+      $out['WIDGET_TYPE'] = gr('widget_type','int');
+
       if ($ow_city_id != '' && $ow_city_name != '')
       {
-         $out["ow_city_name"]     = $ow_city_name;
+         $out["ow_city_name"] = $ow_city_name;
          $out["data_update"] = gg('ow_city.data_update');
 
          $this->view_weather($out);
@@ -211,8 +206,7 @@ class app_openweather extends module
       if (is_null($forecast))
          $forecast = gg('ow_setting.forecast_interval');
       
-      if($fact != 'off')
-      {
+      if($fact != 'off') {
          $temp = gg('ow_fact.temperature');
 
          if($temp > 0) $temp = "+" . $temp;
@@ -220,44 +214,39 @@ class app_openweather extends module
          $out["FACT"]["temperature"]   = $temp;
          $out["FACT"]["weatherIcon"]   = app_openweather::getWeatherIcon(gg('ow_fact.image'));
          $windDirection                = gg('ow_fact.wind_direction');
-         $out["FACT"]["windDirection"] = getWindDirection($windDirection) . " (" . $windDirection . "&deg;)";
+         $out["FACT"]["windDirection"] = gg('ow_fact.wind_direction_text') . " (" . $windDirection . "&deg;)";
          $out["FACT"]["windSpeed"]     = gg('ow_fact.wind_speed');
          $out["FACT"]["humidity"]      = gg('ow_fact.humidity');
          $out["FACT"]["clouds"]        = gg('ow_fact.clouds');
          $out["FACT"]["weatherType"]   = gg('ow_fact.weather_type');
-         //$out["FACT"]["pressure"]      = gg('ow_fact.pressure');
+         $out["FACT"]["pressure"]      = gg('ow_fact.pressure');
          $out["FACT"]["pressure_mmhg"] = gg('ow_fact.pressure_mmhg');
          $out["FACT"]["data_update"]   = gg('ow_city.data_update');
       }
       
-      if ($forecast > 0)
-      {
-		 $api_method =gg('ow_setting.api_method'); 
+      if ($forecast > 0) {
+         $api_method = gg('ow_setting.api_method'); 
          $forecastOnLabel = constant('LANG_OW_FORECAST_ON');
-		 if($api_method=='5d3h') $forecast=$forecast*8-1; else $forecast=$forecast-1;
-         for ($i = 0; $i <= $forecast; $i++)
-         {
+         if ($api_method == '5d3h') $forecast = $forecast*8-1; else $forecast = $forecast-1;
+         for ($i = 0; $i <= $forecast; $i++) {
             $curDate = gg('ow_day' . $i . '.date');
 
-            if ($i == 0)
-            {
+            if ($i == 0) {
                $out["FORECAST"][$i]["date"] = constant('LANG_OW_WEATHER_TODAY') . ' ' . $curDate;
-            }
-            else
-            {
+            } else {
                $out["FORECAST"][$i]["date"] = $forecastOnLabel . ' ' . $curDate;
             }
             
             $temp = gg('ow_day' . $i . '.temperature');
 
-            if($temp > 0) $temp = "+" . $temp;
+            if ($temp > 0) $temp = "+" . $temp;
             
-            if($api_method=='5d3h') $dayTemp=gg('ow_day'.$i.'.temp_max'); else $dayTemp = gg('ow_day'.$i.'.temp_day');
-			if($dayTemp > 0) $dayTemp = "+" . $dayTemp;
+            if ($api_method == '5d3h') $dayTemp = gg('ow_day'.$i.'.temp_max'); else $dayTemp = gg('ow_day'.$i.'.temp_day');
+			if ($dayTemp > 0) $dayTemp = "+" . $dayTemp;
             $eveTemp = gg('ow_day'.$i.'.temp_eve');
-			if($eveTemp > 0) $eveTemp = "+" . $eveTemp;
-			if($api_method=='5d3h') $nTemp=gg('ow_day'.$i.'.temp_min'); else $nTemp=gg('ow_day'.$i.'.temp_night');
-			if($nTemp > 0) $nTemp = "+" . $nTemp;
+			if ($eveTemp > 0) $eveTemp = "+" . $eveTemp;
+			if ($api_method=='5d3h') $nTemp=gg('ow_day'.$i.'.temp_min'); else $nTemp=gg('ow_day'.$i.'.temp_night');
+			if ($nTemp > 0) $nTemp = "+" . $nTemp;
 			
             $out["FORECAST"][$i]["temperature"] = $temp;
             $out["FORECAST"][$i]["temp_morn"]   = gg('ow_day'.$i.'.temp_morn');
@@ -273,7 +262,7 @@ class app_openweather extends module
             $out["FORECAST"][$i]["windSpeed"]     = gg('ow_day'.$i.'.wind_speed');
             $out["FORECAST"][$i]["humidity"]      = gg('ow_day'.$i.'.humidity');
             $out["FORECAST"][$i]["weatherType"]   = gg('ow_day'.$i.'.weather_type');
-            //$out["FORECAST"][$i]["pressure"]      = gg('ow_day'.$i.'.pressure');
+            $out["FORECAST"][$i]["pressure"]      = gg('ow_day'.$i.'.pressure');
             $out["FORECAST"][$i]["pressure_mmhg"] = gg('ow_day'.$i.'.pressure_mmhg');
             $out["FORECAST"][$i]["clouds"]        = gg('ow_day'.$i.'.clouds');
             $out["FORECAST"][$i]["rain"]          = gg('ow_day'.$i.'.rain');
@@ -284,11 +273,11 @@ class app_openweather extends module
 	function processSubscription($event_name, $details='') {
 		if ($event_name=='HOURLY') {
 			$updateTime = gg('ow_setting.updateTime');
-			if($updateTime > 0) {
+			if ($updateTime > 0) {
 				$count = gg('ow_setting.countTime'); 
-				if($count >= $updateTime){
+				if ($count >= $updateTime){
 					$this->get_weather(gg('ow_city.id'));
-					if( gg('ow_setting.ow_ws_active')==1) $this->ws_send_data($out, true);
+					if ( gg('ow_setting.ow_ws_active')==1) $this->ws_send_data($out, true);
 					sg('ow_setting.countTime', 1);
 				} else {
 					$count++;
@@ -303,8 +292,8 @@ class app_openweather extends module
     */
    public function get_weather($cityID)
    {
-    require(DIR_MODULES.$this->name.'/get_weather.inc.php');
-    //runScript(gg('ow_setting.updScript'));
+      require(DIR_MODULES.$this->name.'/get_weather.inc.php');
+      runScript(gg('ow_setting.updScript'));
    }
 
    /**
@@ -314,19 +303,19 @@ class app_openweather extends module
     */
    private static function getWeatherIcon($image)
    {
-      if ($image == '') retrun;
+      if ($image == '') return;
       
       $fileName = $image . '.png';
       $urlIcon = "http://openweathermap.org/img/w/" . $fileName;
       
-      if(gg('ow_setting.ow_imagecache') == 'on')
+      if (gg('ow_setting.ow_imagecache') == 'on')
       {
-         $filePath = ROOT.'templates_alt' . DIRECTORY_SEPARATOR . 'openweather' . DIRECTORY_SEPARATOR . 'image';
+         $filePath = ROOT . 'templates_alt' . DIRECTORY_SEPARATOR . 'openweather' . DIRECTORY_SEPARATOR . 'image';
          
          if (!is_dir($filePath))
          {
-            @mkdir(ROOT . 'templates_alt', 0777);
-            @mkdir(ROOT . 'templates_alt' . DIRECTORY_SEPARATOR . 'openweather', 0777);
+            @mkdir(ROOT . 'templates_alt'. DIRECTORY_SEPARATOR . 'openweather', 0777);
+            @mkdir(ROOT . 'templates_alt'. DIRECTORY_SEPARATOR . 'openweather' . DIRECTORY_SEPARATOR . 'openweather', 0777);
             @mkdir($filePath, 0777);
          }
          
@@ -360,12 +349,12 @@ public function save_setting()
 		global $ow_round;	  
 		global $ow_ws_active;
 	  
-		if(!isset($ow_imagecache)) $ow_imagecache = 'off';
-		if(isset($ow_script)) sg('ow_setting.updScript', $ow_script);
-		if(isset($ow_api_key)) sg('ow_setting.api_key', $ow_api_key);
-		if(isset($api_method)) sg('ow_setting.api_method', $api_method);
-		if(isset($ow_round)) sg('ow_setting.ow_round', $ow_round);
-		if(isset($ow_ws_active)) $ow_ws_active = 1; else $ow_ws_active=0; sg('ow_setting.ow_ws_active', $ow_ws_active);
+		if (!isset($ow_imagecache)) $ow_imagecache = 'off';
+		if (isset($ow_script)) sg('ow_setting.updScript', $ow_script);
+		if (isset($ow_api_key)) sg('ow_setting.api_key', $ow_api_key);
+		if (isset($api_method)) sg('ow_setting.api_method', $api_method);
+		if (isset($ow_round)) sg('ow_setting.ow_round', $ow_round);
+		if (isset($ow_ws_active)) $ow_ws_active = 1; else $ow_ws_active=0; sg('ow_setting.ow_ws_active', $ow_ws_active);
 
 		sg('ow_setting.ow_imagecache', $ow_imagecache);
 		sg('ow_setting.updatetime',$ow_update_interval);
@@ -416,7 +405,6 @@ public function get_cityId(&$out)
       if (!isset($country)) $country = '';
 	  $data = @file_get_contents(ROOT.'templates_alt/openweather/city_list.txt');
 	  $out["country"]=$country;
-      if (count($data) <= 0) return;
       $dataArray = explode("\n", $data);
 		  foreach($dataArray as $row) 
 		  {
@@ -431,7 +419,7 @@ public function get_cityId(&$out)
 			 }
 		  }
 		$out["ow_city"] .= '<option value="0" [#if city_id="none"#] selected[#endif#]>--'. constant('LANG_OW_CHOOSE_CITY') . '--</option>';
-		$out["city_id"]="none";
+		$out["city_id"] = "none";
    }
    
 public function save_cityId()
@@ -478,8 +466,7 @@ private static function GetCurrTemp($temp)
       {
          return $temp->night;
       }
-   }
-   
+   }   
 
 private function ws_reg() 
 {
@@ -496,7 +483,7 @@ private function ws_reg()
 	$data['latitude']=(float)$latitude;
 	$data['longitude']=(float)$longitude;
 	$data['altitude']=(float)$altitude;
-	$json_data=json_encode($data, JSON_UNESCAPED_UNICODE);
+	$json_data = json_encode($data, JSON_UNESCAPED_UNICODE);
 	$ch = curl_init();
 	curl_setopt($ch, CURLOPT_URL, 'http://api.openweathermap.org/data/3.0/stations?appid='.$apiKey);
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -506,7 +493,7 @@ private function ws_reg()
 	curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-type:application/json'));
 	$response = curl_exec($ch);
 	curl_close($ch);
-	$data=json_decode($response, TRUE);
+	$data = json_decode($response, TRUE);
 	if ($data['code'] != '')
       {
          DebMes('OpenWeather: Error '.$data['code'].' '.$data['message']);
@@ -524,23 +511,23 @@ private function ws_get_info(&$out) {
 	$this->ws_send_data($out, false);
 }
 private function ws_send_data(&$out, $send=false) {
-	if (gg('ow_ws.id')!='') 				$data['station_id']=gg('ow_ws.id');
-	if (gg('ow_ws.dt')!='') 				$data['dt']=gg('ow_ws.dt'); if($data['station_id']='') $data['station_id']=time();
-	if (gg('ow_ws.temperature')!='') 		$data['temperature']=gg('ow_ws.temperature');
-	if (gg('ow_ws.wind_speed')!='') 		$data['wind_speed']=gg('ow_ws.wind_speed');
-	if (gg('ow_ws.wind_gust')!='') 			$data['wind_gust']=gg('ow_ws.wind_gust');
-	if (gg('ow_ws.wind_deg')!='') 			$data['wind_deg']=gg('ow_ws.wind_deg');
-	if (gg('ow_ws.pressure')!='') 			$data['pressure']=gg('ow_ws.pressure');
-	if (gg('ow_ws.humidity')!='') 			$data['humidity']=gg('ow_ws.humidity');
-	if (gg('ow_ws.rain_1h')!='') 			$data['rain_1h']=gg('ow_ws.rain_1h');
-	if (gg('ow_ws.rain_6h')!='') 			$data['rain_6h']=gg('ow_ws.rain_6h');
-	if (gg('ow_ws.rain_24h')!='') 			$data['rain_24h']=gg('ow_ws.rain_24h');
-	if (gg('ow_ws.snow_1h')!='') 			$data['snow_1h']=gg('ow_ws.snow_1h');
-	if (gg('ow_ws.snow_6h')!='') 			$data['snow_6h']=gg('ow_ws.snow_6h');
-	if (gg('ow_ws.snow_24h')!='') 			$data['snow_24h']=gg('ow_ws.snow_24h');
-	if (gg('ow_ws.dew_point')!='') 			$data['dew_point']=gg('ow_ws.dew_point');
-	if (gg('ow_ws.humidex')!='') 			$data['humidex']=gg('ow_ws.humidex');
-	if (gg('ow_ws.heat_index')!='') 		$data['heat_index']=gg('ow_ws.heat_index');
+	if (gg('ow_ws.id')!='') 		$data['station_id']=gg('ow_ws.id');
+	if (gg('ow_ws.dt')!='') 		$data['dt']=gg('ow_ws.dt'); if($data['station_id']='') $data['station_id']=time();
+	if (gg('ow_ws.temperature')!='') 	$data['temperature']=gg('ow_ws.temperature');
+	if (gg('ow_ws.wind_speed')!='') 	$data['wind_speed']=gg('ow_ws.wind_speed');
+	if (gg('ow_ws.wind_gust')!='') 		$data['wind_gust']=gg('ow_ws.wind_gust');
+	if (gg('ow_ws.wind_deg')!='') 		$data['wind_deg']=gg('ow_ws.wind_deg');
+	if (gg('ow_ws.pressure')!='') 		$data['pressure']=gg('ow_ws.pressure');
+	if (gg('ow_ws.humidity')!='') 		$data['humidity']=gg('ow_ws.humidity');
+	if (gg('ow_ws.rain_1h')!='') 		$data['rain_1h']=gg('ow_ws.rain_1h');
+	if (gg('ow_ws.rain_6h')!='') 		$data['rain_6h']=gg('ow_ws.rain_6h');
+	if (gg('ow_ws.rain_24h')!='') 		$data['rain_24h']=gg('ow_ws.rain_24h');
+	if (gg('ow_ws.snow_1h')!='') 		$data['snow_1h']=gg('ow_ws.snow_1h');
+	if (gg('ow_ws.snow_6h')!='') 		$data['snow_6h']=gg('ow_ws.snow_6h');
+	if (gg('ow_ws.snow_24h')!='') 		$data['snow_24h']=gg('ow_ws.snow_24h');
+	if (gg('ow_ws.dew_point')!='') 		$data['dew_point']=gg('ow_ws.dew_point');
+	if (gg('ow_ws.humidex')!='') 		$data['humidex']=gg('ow_ws.humidex');
+	if (gg('ow_ws.heat_index')!='') 	$data['heat_index']=gg('ow_ws.heat_index');
 	if (gg('ow_ws.visibility_distance')!='') $data['visibility_distance']=gg('ow_ws.visibility_distance');
 	if (gg('ow_ws.visibility_prefix')!='') 	$data['visibility_prefix']=gg('ow_ws.visibility_prefix');
 	if (gg('ow_ws.clouds_distance')!='') 	$data['clouds']['distance']=gg('ow_ws.clouds_distance');
@@ -551,7 +538,7 @@ private function ws_send_data(&$out, $send=false) {
 	if (gg('ow_ws.weather_intensity')!='') 	$data['weather']['intensity']=gg('ow_ws.weather_intensity');
 	if (gg('ow_ws.weather_proximity')!='') 	$data['weather']['proximity']=gg('ow_ws.weather_proximity');
 	if (gg('ow_ws.weather_obsruration')!='') $data['weather']['obsruration']=gg('ow_ws.weather_obsruration');
-	if (gg('ow_ws.weather_other')!='') 		$data['weather']['other']=gg('ow_ws.weather_other');
+	if (gg('ow_ws.weather_other')!='') 	$data['weather']['other']=gg('ow_ws.weather_other');
 	$i=1;
 	$apiKey = gg('ow_setting.api_key');
 	$stationID = $data['station_id'];
@@ -563,7 +550,7 @@ private function ws_send_data(&$out, $send=false) {
 		}
 	}
 	if($send==true) {
-		$json_data=json_encode($data, JSON_UNESCAPED_UNICODE);
+		$json_data = json_encode($data, JSON_UNESCAPED_UNICODE);
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_URL, 'http://api.openweathermap.org/data/3.0/stations?appid='.$apiKey.'&type=h&limit=100&station_id='.$stationID);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -585,9 +572,9 @@ private function ws_send_data(&$out, $send=false) {
     * Module installation routine
     * @access private
     */
-   public function install($parent_name = '')
+   public function install($data = '')
    {
-	  subscribeToEvent($this->name, 'HOURLY');
+      subscribeToEvent($this->name, 'HOURLY');
       $className = 'openweather';
       $objectName = array('ow_city', 'ow_setting', 'ow_ws', 'ow_fact', 'ow_day0', 'ow_day1', 'ow_day2');
       $objDescription = array('Местоположение', 'Настройки', 'Погодная станция (экспорт)', 'Текущая температура', 'Прогноз погоды на день', 'Прогноз погоды на завтра', 'Прогноз погоды на послезавтра');
@@ -618,14 +605,23 @@ private function ws_send_data(&$out, $send=false) {
       parent::install();
    }
    
-   public function uninstall()
-   {
-      unsubscribeFromEvent($this->name, 'HOURLY');
-      SQLExec("delete from pvalues where property_id in (select id FROM properties where object_id in (select id from objects where class_id = (select id from classes where title = 'openweather')))");
-      SQLExec("delete from properties where object_id in (select id from objects where class_id = (select id from classes where title = 'openweather'))");
-      SQLExec("delete from objects where class_id = (select id from classes where title = 'openweather')");
-      SQLExec("delete from classes where title = 'openweather'");
-      parent::uninstall();
-   }
+	public function uninstall()
+	{
+		// удаляем файлы модуля
+		if ($file = fopen(DIR_MODULES . '/app_openweather/file_list.txt', "r")) {
+			while(!feof($file)) {
+				$line = preg_replace('/\p{Cc}+/u', '', fgets($file));
+				@unlink(realpath(ROOT.$line));
+				DebMes (ROOT . $line);
+			}
+			fclose($file);
+		}
+
+		unsubscribeFromEvent($this->name, 'HOURLY');
+		SQLExec("delete from pvalues where property_id in (select id FROM properties where object_id in (select id from objects where class_id = (select id from classes where title = 'openweather')))");
+		SQLExec("delete from properties where object_id in (select id from objects where class_id = (select id from classes where title = 'openweather'))");
+		SQLExec("delete from objects where class_id = (select id from classes where title = 'openweather')");
+		SQLExec("delete from classes where title = 'openweather'");
+		parent::uninstall();
+	}
 }
-?>
