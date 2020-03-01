@@ -625,3 +625,4 @@ private function ws_send_data(&$out, $send=false) {
 		parent::uninstall();
 	}
 }
+?>
