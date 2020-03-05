@@ -107,10 +107,6 @@ elseif ($api_method == '5d3h' && $cnt) {
 			sg('ow_day'.$i.'.date', $date);
 
 			sg('ow_day'.$i.'.temperature', round($day->main->temp, $round));
-			sg('ow_day'.$i.'.temp_morn', 'na');
-			sg('ow_day'.$i.'.temp_day', 'na');
-			sg('ow_day'.$i.'.temp_eve', 'na');
-			sg('ow_day'.$i.'.temp_night', 'na');
 			sg('ow_day'.$i.'.temp_min', round($day->main->temp_min, $round));
 			sg('ow_day'.$i.'.temp_max', round($day->main->temp_max, $round));
 
