@@ -91,8 +91,9 @@ if ($api_method == '16d' && $cnt) {
 			$i++;
 		}
 	}
-} else {
-	$query = "http://api.openweathermap.org/data/2.5/forecast?id=" . $cityID . "&mode=json&units=" . $unit . "&cnt=" . $cnt . "&lang=" . $lang . "&appid=" . $apiKey;
+}
+elseif ($api_method == '5d3h' && $cnt) {
+	$query = "http://api.openweathermap.org/data/2.5/forecast?id=" . $cityID . "&mode=json&units=" . $unit . "&lang=" . $lang . "&appid=" . $apiKey;
 	$data = getURL($query);
 	$weather = json_decode($data);
 	if ($weather->cod == "404" || $weather->cod == "500") {

@@ -135,7 +135,7 @@ class app_openweather extends module
       if ($this->view_mode == '') {
          $ow_city_id = gg('ow_city.id');
          $ow_city_name = gg('ow_city.name');
-         
+
          if ($ow_city_id != '' && $ow_city_name != '') {
             $out["ow_city_name"] = $ow_city_name;
             $out["ow_data_update"] = gg('ow_city.data_update');
@@ -202,10 +202,10 @@ class app_openweather extends module
    {
       $fact     = $this->fact;
       $forecast = $this->forecast;
-	  
+
       if (is_null($forecast))
          $forecast = gg('ow_setting.forecast_interval');
-      
+
       if($fact != 'off') {
          $temp = gg('ow_fact.temperature');
 
@@ -223,7 +223,7 @@ class app_openweather extends module
          $out["FACT"]["pressure_mmhg"] = gg('ow_fact.pressure_mmhg');
          $out["FACT"]["data_update"]   = gg('ow_city.data_update');
       }
-      
+
       if ($forecast > 0) {
          $api_method = gg('ow_setting.api_method'); 
          $forecastOnLabel = constant('LANG_OW_FORECAST_ON');
@@ -236,18 +236,18 @@ class app_openweather extends module
             } else {
                $out["FORECAST"][$i]["date"] = $forecastOnLabel . ' ' . $curDate;
             }
-            
+
             $temp = gg('ow_day' . $i . '.temperature');
 
             if ($temp > 0) $temp = "+" . $temp;
-            
+
             if ($api_method == '5d3h') $dayTemp = gg('ow_day'.$i.'.temp_max'); else $dayTemp = gg('ow_day'.$i.'.temp_day');
 			if ($dayTemp > 0) $dayTemp = "+" . $dayTemp;
             $eveTemp = gg('ow_day'.$i.'.temp_eve');
 			if ($eveTemp > 0) $eveTemp = "+" . $eveTemp;
 			if ($api_method=='5d3h') $nTemp=gg('ow_day'.$i.'.temp_min'); else $nTemp=gg('ow_day'.$i.'.temp_night');
 			if ($nTemp > 0) $nTemp = "+" . $nTemp;
-			
+
             $out["FORECAST"][$i]["temperature"] = $temp;
             $out["FORECAST"][$i]["temp_morn"]   = gg('ow_day'.$i.'.temp_morn');
             $out["FORECAST"][$i]["temp_day"] = $dayTemp;
@@ -255,7 +255,7 @@ class app_openweather extends module
             $out["FORECAST"][$i]["temp_night"] = $nTemp;
             $out["FORECAST"][$i]["temp_min"]    = gg('ow_day'.$i.'.temp_min');
             $out["FORECAST"][$i]["temp_max"]    = gg('ow_day'.$i.'.temp_max');
-            
+
             $out["FORECAST"][$i]["weatherIcon"]   = app_openweather::getWeatherIcon(gg('ow_day' . $i . '.image'));
             $windDirection                        = gg('ow_day' . $i . '.wind_direction');
             $out["FORECAST"][$i]["windDirection"] = getWindDirection($windDirection) . " (" . $windDirection . "&deg;)";
@@ -304,21 +304,21 @@ class app_openweather extends module
    private static function getWeatherIcon($image)
    {
       if ($image == '') return;
-      
+
       $fileName = $image . '.png';
       $urlIcon = "http://openweathermap.org/img/w/" . $fileName;
-      
+
       if (gg('ow_setting.ow_imagecache') == 'on')
       {
          $filePath = ROOT . 'templates_alt' . DIRECTORY_SEPARATOR . 'openweather' . DIRECTORY_SEPARATOR . 'image';
-         
+
          if (!is_dir($filePath))
          {
             @mkdir(ROOT . 'templates_alt'. DIRECTORY_SEPARATOR . 'openweather', 0777);
             @mkdir(ROOT . 'templates_alt'. DIRECTORY_SEPARATOR . 'openweather' . DIRECTORY_SEPARATOR . 'openweather', 0777);
             @mkdir($filePath, 0777);
          }
-         
+
          if (!file_exists($filePath . DIRECTORY_SEPARATOR . $fileName))
          {
             $contents = @file_get_contents($urlIcon);
@@ -327,12 +327,12 @@ class app_openweather extends module
                SaveFile($filePath . DIRECTORY_SEPARATOR . $fileName, $contents);
             }
          }
-         
+
          $urlIcon = ROOTHTML . "templates_alt/openweather/image/" . $fileName;
       }
       return $urlIcon;
    }
-   
+
 
 public function save_setting()
 	{
@@ -348,7 +348,7 @@ public function save_setting()
 		global $api_method;
 		global $ow_round;	  
 		global $ow_ws_active;
-	  
+
 		if (!isset($ow_imagecache)) $ow_imagecache = 'off';
 		if (isset($ow_script)) sg('ow_setting.updScript', $ow_script);
 		if (isset($ow_api_key)) sg('ow_setting.api_key', $ow_api_key);
@@ -360,7 +360,7 @@ public function save_setting()
 		sg('ow_setting.updatetime',$ow_update_interval);
 		sg('ow_setting.forecast_interval', $ow_forecast_interval);
 		sg('ow_setting.countTime', 1);
-		
+
 		$class = SQLSelectOne("SELECT ID FROM classes WHERE TITLE = 'openweather'");
 		if ($api_method=='5d3h') $ow_forecast_interval=$ow_forecast_interval*8;
 		if ($class['ID']) 
@@ -421,11 +421,11 @@ public function get_cityId(&$out)
 		$out["ow_city"] .= '<option value="0" [#if city_id="none"#] selected[#endif#]>--'. constant('LANG_OW_CHOOSE_CITY') . '--</option>';
 		$out["city_id"] = "none";
    }
-   
+
 public function save_cityId()
    {
       global $ow_city_id;
-     
+
       if(isset($ow_city_id) && $ow_city_id != 0)
       {
 		$data = @file_get_contents(ROOT.'templates_alt/openweather/city_list.txt');
@@ -445,11 +445,11 @@ public function save_cityId()
       }
    }  
 
-   
+
 private static function GetCurrTemp($temp)
    {
       $time = date("H");
-      
+
       if ($time >= 4 && $time < 13)
       {
          return $temp->morn;
@@ -475,9 +475,9 @@ private function ws_reg()
 	global $latitude;
 	global $longitude;
 	global $altitude;
-	
+
 	$apiKey = gg('ow_setting.api_key');
-	
+
 	$data['external_id']=$external_id;
 	$data['name']=$name;
 	$data['latitude']=(float)$latitude;
@@ -499,7 +499,7 @@ private function ws_reg()
          DebMes('OpenWeather: Error '.$data['code'].' '.$data['message']);
          return;
       }
-	debmes($response);
+	DebMes($response);
 	sg('ow_ws.id', $data['ID']);
 	sg('ow_ws.user_id', $data['user_id']);
 	sg('ow_ws.name', $data['name']);
@@ -580,7 +580,7 @@ private function ws_send_data(&$out, $send=false) {
       $objDescription = array('Местоположение', 'Настройки', 'Погодная станция (экспорт)', 'Текущая температура', 'Прогноз погоды на день', 'Прогноз погоды на завтра', 'Прогноз погоды на послезавтра');
 
       $rec = SQLSelectOne("SELECT ID FROM classes WHERE TITLE LIKE '" . DBSafe($className) . "'");
-      
+
       if (!$rec['ID'])
       {
          $rec = array();
@@ -588,11 +588,11 @@ private function ws_send_data(&$out, $send=false) {
          $rec['DESCRIPTION'] = 'Погода Open Weather Map';
          $rec['ID'] = SQLInsert('classes', $rec);
       }
-      
+
       for ($i = 0; $i < count($objectName); $i++)
       {
          $obj_rec = SQLSelectOne("SELECT ID FROM objects WHERE CLASS_ID='" . $rec['ID'] . "' AND TITLE LIKE '" . DBSafe($objectName[$i]) . "'");
-         
+
          if (!$obj_rec['ID'])
          {
             $obj_rec = array();
@@ -604,7 +604,7 @@ private function ws_send_data(&$out, $send=false) {
       }
       parent::install();
    }
-   
+
 	public function uninstall()
 	{
 		// удаляем файлы модуля
@@ -612,7 +612,7 @@ private function ws_send_data(&$out, $send=false) {
 			while(!feof($file)) {
 				$line = preg_replace('/\p{Cc}+/u', '', fgets($file));
 				@unlink(realpath(ROOT.$line));
-				DebMes (ROOT . $line);
+				DebMes(ROOT . $line);
 			}
 			fclose($file);
 		}
