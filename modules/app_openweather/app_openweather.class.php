@@ -238,27 +238,26 @@ public function view_weather(&$out)
 			}
 
 			$temp = gg('ow_day' . $i . '.temperature');
-
-			if ($temp > 0) $temp = "+" . $temp;
+			if ($temp > 0) $temp = '+' . $temp;
+			$out["FORECAST"][$i]["temperature"] = $temp;
 
 			if ($api_method == '5d3h') $dayTemp = gg('ow_day'.$i.'.temp_max'); else $dayTemp = gg('ow_day'.$i.'.temp_day');
 			if ($dayTemp > 0) $dayTemp = "+" . $dayTemp;
+			$out["FORECAST"][$i]["temp_day"] = $dayTemp;
 
-			$eveTemp = gg('ow_day'.$i.'.temp_eve');
-
-			if ($eveTemp > 0) $eveTemp = "+" . $eveTemp;
 			if ($api_method == '5d3h') $nTemp = gg('ow_day'.$i.'.temp_min'); else $nTemp = gg('ow_day'.$i.'.temp_night');
-			if ($nTemp > 0) $nTemp = "+" . $nTemp;
+			if ($nTemp > 0) $nTemp = '+' . $nTemp;
+			$out["FORECAST"][$i]["temp_night"] = $nTemp;
 
-			$out["FORECAST"][$i]["temperature"] = $temp;
 			$out["FORECAST"][$i]["temp_min"]    = gg('ow_day'.$i.'.temp_min');
 			$out["FORECAST"][$i]["temp_max"]    = gg('ow_day'.$i.'.temp_max');
 
 			if ($api_method == '16d') {
 				$out["FORECAST"][$i]["temp_morn"]   = gg('ow_day'.$i.'.temp_morn');
-				$out["FORECAST"][$i]["temp_day"] = $dayTemp;
+
+				$eveTemp = gg('ow_day'.$i.'.temp_eve');
+				if ($eveTemp > 0) $eveTemp = '+' . $eveTemp;
 				$out["FORECAST"][$i]["temp_eve"]    = $eveTemp;
-				$out["FORECAST"][$i]["temp_night"] = $nTemp;
 			}
 
 			$out["FORECAST"][$i]["weatherIcon"]   = app_openweather::getWeatherIcon(gg('ow_day' . $i . '.image'));
