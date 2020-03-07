@@ -193,83 +193,89 @@ class app_openweather extends module
       }
    }
 
-   /**
-    * Вывод данных о прогнозе погоды
-    * @param array $out Массив с сформированными данными о прогнозе погоды
-    * @return void
-    */
-   public function view_weather(&$out)
-   {
-      $fact     = $this->fact;
-      $forecast = $this->forecast;
+/**
+* Вывод данных о прогнозе погоды
+* @param array $out Массив с сформированными данными о прогнозе погоды
+* @return void
+*/
+public function view_weather(&$out)
+	{
+	$fact     = $this->fact;
+	$forecast = $this->forecast;
 
-      if (is_null($forecast))
-         $forecast = gg('ow_setting.forecast_interval');
+	if (is_null($forecast))
+		$forecast = gg('ow_setting.forecast_interval');
 
-      if($fact != 'off') {
-         $temp = gg('ow_fact.temperature');
+	if($fact != 'off') {
+		$temp = gg('ow_fact.temperature');
 
-         if($temp > 0) $temp = "+" . $temp;
+		if($temp > 0) $temp = "+" . $temp;
 
-         $out["FACT"]["temperature"]   = $temp;
-         $out["FACT"]["weatherIcon"]   = app_openweather::getWeatherIcon(gg('ow_fact.image'));
-         $windDirection                = gg('ow_fact.wind_direction');
-         $out["FACT"]["windDirection"] = gg('ow_fact.wind_direction_text') . " (" . $windDirection . "&deg;)";
-         $out["FACT"]["windSpeed"]     = gg('ow_fact.wind_speed');
-         $out["FACT"]["humidity"]      = gg('ow_fact.humidity');
-         $out["FACT"]["clouds"]        = gg('ow_fact.clouds');
-         $out["FACT"]["weatherType"]   = gg('ow_fact.weather_type');
-         $out["FACT"]["pressure"]      = gg('ow_fact.pressure');
-         $out["FACT"]["pressure_mmhg"] = gg('ow_fact.pressure_mmhg');
-         $out["FACT"]["data_update"]   = gg('ow_city.data_update');
-      }
+			$out["FACT"]["temperature"]   = $temp;
+			$out["FACT"]["weatherIcon"]   = app_openweather::getWeatherIcon(gg('ow_fact.image'));
+			$windDirection                = gg('ow_fact.wind_direction');
+			$out["FACT"]["windDirection"] = gg('ow_fact.wind_direction_text') . " (" . $windDirection . "&deg;)";
+			$out["FACT"]["windSpeed"]     = gg('ow_fact.wind_speed');
+			$out["FACT"]["humidity"]      = gg('ow_fact.humidity');
+			$out["FACT"]["clouds"]        = gg('ow_fact.clouds');
+			$out["FACT"]["weatherType"]   = gg('ow_fact.weather_type');
+			//$out["FACT"]["pressure"]      = gg('ow_fact.pressure');
+			$out["FACT"]["pressure_mmhg"] = gg('ow_fact.pressure_mmhg');
+			$out["FACT"]["data_update"]   = gg('ow_city.data_update');
+	}
 
-      if ($forecast > 0) {
-         $api_method = gg('ow_setting.api_method'); 
-         $forecastOnLabel = constant('LANG_OW_FORECAST_ON');
-         if ($api_method == '5d3h') $forecast = $forecast*8-1; else $forecast = $forecast-1;
-         for ($i = 0; $i <= $forecast; $i++) {
-            $curDate = gg('ow_day' . $i . '.date');
+	if ($forecast > 0) {
+		$api_method = gg('ow_setting.api_method'); 
+		$forecastOnLabel = constant('LANG_OW_FORECAST_ON');
+		if ($api_method == '5d3h') $forecast = $forecast*8-1; else $forecast = $forecast-1;
+		for ($i = 0; $i <= $forecast; $i++) {
+			$curDate = gg('ow_day' . $i . '.date');
 
-            if ($i == 0) {
-               $out["FORECAST"][$i]["date"] = constant('LANG_OW_WEATHER_TODAY') . ' ' . $curDate;
-            } else {
-               $out["FORECAST"][$i]["date"] = $forecastOnLabel . ' ' . $curDate;
-            }
+			if ($i == 0) {
+				$out["FORECAST"][$i]["date"] = constant('LANG_OW_WEATHER_TODAY') . ' ' . $curDate;
+			} else {
+				$out["FORECAST"][$i]["date"] = $forecastOnLabel . ' ' . $curDate;
+			}
 
-            $temp = gg('ow_day' . $i . '.temperature');
+			$temp = gg('ow_day' . $i . '.temperature');
 
-            if ($temp > 0) $temp = "+" . $temp;
+			if ($temp > 0) $temp = "+" . $temp;
 
-            if ($api_method == '5d3h') $dayTemp = gg('ow_day'.$i.'.temp_max'); else $dayTemp = gg('ow_day'.$i.'.temp_day');
+			if ($api_method == '5d3h') $dayTemp = gg('ow_day'.$i.'.temp_max'); else $dayTemp = gg('ow_day'.$i.'.temp_day');
 			if ($dayTemp > 0) $dayTemp = "+" . $dayTemp;
-            $eveTemp = gg('ow_day'.$i.'.temp_eve');
+
+			$eveTemp = gg('ow_day'.$i.'.temp_eve');
+
 			if ($eveTemp > 0) $eveTemp = "+" . $eveTemp;
-			if ($api_method=='5d3h') $nTemp=gg('ow_day'.$i.'.temp_min'); else $nTemp=gg('ow_day'.$i.'.temp_night');
+			if ($api_method == '5d3h') $nTemp = gg('ow_day'.$i.'.temp_min'); else $nTemp = gg('ow_day'.$i.'.temp_night');
 			if ($nTemp > 0) $nTemp = "+" . $nTemp;
 
-            $out["FORECAST"][$i]["temperature"] = $temp;
-            $out["FORECAST"][$i]["temp_morn"]   = gg('ow_day'.$i.'.temp_morn');
-            $out["FORECAST"][$i]["temp_day"] = $dayTemp;
-            $out["FORECAST"][$i]["temp_eve"]    = $eveTemp;
-            $out["FORECAST"][$i]["temp_night"] = $nTemp;
-            $out["FORECAST"][$i]["temp_min"]    = gg('ow_day'.$i.'.temp_min');
-            $out["FORECAST"][$i]["temp_max"]    = gg('ow_day'.$i.'.temp_max');
+			$out["FORECAST"][$i]["temperature"] = $temp;
+			$out["FORECAST"][$i]["temp_min"]    = gg('ow_day'.$i.'.temp_min');
+			$out["FORECAST"][$i]["temp_max"]    = gg('ow_day'.$i.'.temp_max');
 
-            $out["FORECAST"][$i]["weatherIcon"]   = app_openweather::getWeatherIcon(gg('ow_day' . $i . '.image'));
-            $windDirection                        = gg('ow_day' . $i . '.wind_direction');
-            $out["FORECAST"][$i]["windDirection"] = getWindDirection($windDirection) . " (" . $windDirection . "&deg;)";
-            $out["FORECAST"][$i]["windSpeed"]     = gg('ow_day'.$i.'.wind_speed');
-            $out["FORECAST"][$i]["humidity"]      = gg('ow_day'.$i.'.humidity');
-            $out["FORECAST"][$i]["weatherType"]   = gg('ow_day'.$i.'.weather_type');
-            $out["FORECAST"][$i]["pressure"]      = gg('ow_day'.$i.'.pressure');
-            $out["FORECAST"][$i]["pressure_mmhg"] = gg('ow_day'.$i.'.pressure_mmhg');
-            $out["FORECAST"][$i]["clouds"]        = gg('ow_day'.$i.'.clouds');
-            $out["FORECAST"][$i]["rain"]          = gg('ow_day'.$i.'.rain');
-            $out["FORECAST"][$i]["snow"]          = gg('ow_day'.$i.'.snow');
-         }
-      }
-   }
+			if ($api_method == '16d') {
+				$out["FORECAST"][$i]["temp_morn"]   = gg('ow_day'.$i.'.temp_morn');
+				$out["FORECAST"][$i]["temp_day"] = $dayTemp;
+				$out["FORECAST"][$i]["temp_eve"]    = $eveTemp;
+				$out["FORECAST"][$i]["temp_night"] = $nTemp;
+			}
+
+			$out["FORECAST"][$i]["weatherIcon"]   = app_openweather::getWeatherIcon(gg('ow_day' . $i . '.image'));
+			$windDirection                        = gg('ow_day' . $i . '.wind_direction');
+			$out["FORECAST"][$i]["windDirection"] = getWindDirection($windDirection) . " (" . $windDirection . "&deg;)";
+			$out["FORECAST"][$i]["windSpeed"]     = gg('ow_day'.$i.'.wind_speed');
+			$out["FORECAST"][$i]["humidity"]      = gg('ow_day'.$i.'.humidity');
+			$out["FORECAST"][$i]["weatherType"]   = gg('ow_day'.$i.'.weather_type');
+			//$out["FORECAST"][$i]["pressure"]      = gg('ow_day'.$i.'.pressure');
+			$out["FORECAST"][$i]["pressure_mmhg"] = gg('ow_day'.$i.'.pressure_mmhg');
+			$out["FORECAST"][$i]["clouds"]        = gg('ow_day'.$i.'.clouds');
+			$out["FORECAST"][$i]["rain"]          = gg('ow_day'.$i.'.rain');
+			$out["FORECAST"][$i]["snow"]          = gg('ow_day'.$i.'.snow');
+		}
+	}
+}
+
 	function processSubscription($event_name, $details='') {
 		if ($event_name=='HOURLY') {
 			$updateTime = gg('ow_setting.updateTime');
