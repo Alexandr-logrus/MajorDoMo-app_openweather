@@ -12,7 +12,7 @@ $unit = 'metric';
 $cnt = gg('ow_setting.forecast_interval');
 $round = intval(gg('ow_setting.ow_round'));
 $ret = 0;
-while($ret <= 3) {
+while($ret < 3) {
 	$query = "http://api.openweathermap.org/data/2.5/weather?id=" . $cityID . "&mode=json&units=" . $unit . "&lang=" . $lang . "&appid=" . $apiKey;
 	$data = getURL($query);		
 	$curWeather = json_decode($data);
